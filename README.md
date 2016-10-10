@@ -4,7 +4,7 @@ Usage:
 
 Start new shell with [shellfoundry](https://github.com/QualiSystems/shellfoundry):
 ```bash
-$ shellfoundry new DriverName --template shell-l1-standard
+$ shellfoundry new DriverName --template layer-1-switch
 ```
 Install requirements:
 ```bash
