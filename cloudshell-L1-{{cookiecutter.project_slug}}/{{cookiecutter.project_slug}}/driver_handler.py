@@ -11,7 +11,8 @@ class {{cookiecutter.project_name}}DriverHandler(DriverHandlerBase):
         self._blade_model = "{{cookiecutter.model_name}} Blade"
         self._port_model = "{{cookiecutter.model_name}} Port"
 
-        self.example_driver_setting = ConfigurationParser.get("driver_variable", "example_driver_setting")
+        # example: get variable from the configuration/runtime_configuration files:
+        # self.example_driver_setting = ConfigurationParser.get("driver_variable", "example_driver_setting")
 
     def login(self, address, username, password, command_logger=None):
         """Perform login operation on the device
@@ -135,7 +136,7 @@ class {{cookiecutter.project_name}}DriverHandler(DriverHandlerBase):
         raise NotImplementedError
 
     def set_speed_manual(self, command_logger):
-        """Set speed manual - skipped command
+        """Set speed manual - legacy command, do not delete, no need to change
 
         :param command_logger: logging.Logger instance
         :return: None
