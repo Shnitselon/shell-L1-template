@@ -37,7 +37,7 @@ $ pip install pyinstaller
 
 Test in CloudShell:
 
-1. Copy the compiled driver and the runtime_configuration.json file into the CloudShell Server installation folder, to the Drivers folder
+1. Copy the compiled driver and the runtime_configuration.json file into the CloudShell Server installation folder, to the Drivers folder (usually "C:\\Program Files (x86)\\QualiSystems\\CloudShell\\Server\\Drivers")
 
 2. [Follow this guide](http://help.quali.com/Online%20Help/8.1.0.4291/Portal/Content/Admn/Cnct-Ctrl-L1-Swch.htm) to import the new datamodel, create a resource, set the timeout period, auto load it and configure its physical connections
 
