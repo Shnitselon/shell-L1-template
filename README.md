@@ -17,7 +17,9 @@ Implement all driver functions in driver_handler.py module
 Add/Modify variables and their values in the configuration/configuration.json file. This file will be compiled into the driver.
 You can add more variables to the runtime_configuration.json file to either override any variable from the configuration.json in runtime, or add other inputs that you'll be able to get from there in runtime.
 
-Compile driver to exe file using pyinstaller:
+Update the driver version and metadata in version.txt
+
+Compile the driver:
 
 - download required packages from requirements.txt and uncompress them at the same level as driver. Note: [cloudshell-core](https://github.com/QualiSystems/cloudshell-core) and [cloudshell_l1_networking_core](https://github.com/QualiSystems/cloudshell-L1-networking-core) are required packages and must have the next paths:
 
@@ -31,7 +33,7 @@ $ pip install pyinstaller
 
 ```
 
-- run compile_driver.bat (Driver exe file will appear in "dist" directory)
+- run compile_driver.bat (will be created in a "dist" directory)
 
 Test in CloudShell:
 
