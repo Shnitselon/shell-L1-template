@@ -33,7 +33,7 @@ $ pip install pyinstaller
 
 ```
 
-- run compile_driver.bat (will be created in a "dist" directory)
+- run compile_driver.bat (the compiled driver will be created in a "dist" directory)
 
 Test in CloudShell:
 
