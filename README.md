@@ -1,41 +1,41 @@
 # Shell L1 Driver Standard
 
-Usage:
+**Usage:**
 
-Start a new project with [shellfoundry](https://github.com/QualiSystems/shellfoundry):
+1. Start a new project with [shellfoundry](https://github.com/QualiSystems/shellfoundry):
 ```bash
 $ shellfoundry new DriverName --template layer-1-switch
 ```
-Install requirements:
+2. Install requirements (from the new project folder):
 ```bash
 $ pip install -r requirements.txt
 
 ```
 
-Implement all driver functions in driver_handler.py module
+3. Implement all driver functions in driver_handler.py module
 
-Add/Modify variables and their values in the configuration/configuration.json file. This file will be compiled into the driver.
+4. Add/Modify variables and their values in the configuration/configuration.json file. This file will be compiled into the driver.
 You can add more variables to the runtime_configuration.json file to either override any variable from the configuration.json in runtime, or add other inputs that you'll be able to get from there in runtime.
 
-Update the driver version and metadata in version.txt
+5. Update the driver version and metadata in version.txt
 
-Compile the driver:
+**Compile the driver:**
 
-- download required packages from requirements.txt and uncompress them at the same level as driver. Note: [cloudshell-core](https://github.com/QualiSystems/cloudshell-core) and [cloudshell_l1_networking_core](https://github.com/QualiSystems/cloudshell-L1-networking-core) are required packages and must have the next paths:
+1. download required packages from requirements.txt and uncompress them at the same level as the project folder (next to it). Note: [cloudshell-core](https://github.com/QualiSystems/cloudshell-core) and [cloudshell_l1_networking_core](https://github.com/QualiSystems/cloudshell-L1-networking-core) are required packages and must have the next paths:
 
 cloudshell-core package: "../cloudshell-core"
 
 cloudshell_l1_networking_core package: "../cloudshell-L1-networking-core"
 
-- [install pyinstaller](http://pyinstaller.readthedocs.io/en/latest/installation.html):
+2. [install pyinstaller](http://pyinstaller.readthedocs.io/en/latest/installation.html):
 ```bash
 $ pip install pyinstaller
 
 ```
 
-- run compile_driver.bat (the compiled driver will be created in a "dist" directory)
+3. run compile_driver.bat (the compiled driver will be created in a "dist" directory)
 
-Test in CloudShell:
+**Test in CloudShell:**
 
 1. Copy the compiled driver and the runtime_configuration.json file into the CloudShell Server installation folder, to the Drivers folder (usually "C:\\Program Files (x86)\\QualiSystems\\CloudShell\\Server\\Drivers")
 
