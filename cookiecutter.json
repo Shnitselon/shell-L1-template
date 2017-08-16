@@ -4,7 +4,7 @@
 	"github_username": "qualisystemslab",
 	"category" : "App Management",
 	"project_name": "Shell",
-  	"family_name" : "L1 Switch",
+  "family_name" : "L1 Switch",
 	"project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-','_') }}",
 	"model_name" : "{{ cookiecutter.project_slug.replace('_', ' ').title().replace(' ','') }}",
 	"driver_name" : "{{ cookiecutter.model_name }}Driver",
