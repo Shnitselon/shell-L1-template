@@ -161,7 +161,7 @@
                     <AttributeValues/>
                     <ParentModels/>
                     <Drivers>
-                        <DriverName>{{cookiecutter.model_name}} Driver</DriverName>
+                        <DriverName>{{cookiecutter.model_name.upper()}}</DriverName>
                     </Drivers>
                 </ResourceModel>
             </Models>
@@ -186,7 +186,7 @@
                     </AttachedAttributes>
                     <AttributeValues/>
                     <ParentModels>
-                        <ParentModelName>{{cookiecutter.model_name}}</ParentModelName>
+                        <ParentModelName>{{ cookiecutter.model_name }} Chassis</ParentModelName>
                     </ParentModels>
                     <Drivers/>
                 </ResourceModel>
