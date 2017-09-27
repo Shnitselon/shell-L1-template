@@ -12,12 +12,9 @@ $ pip install -r requirements.txt
 
 ```
 
-3. Implement all driver functions in driver_handler.py module
+3. Implement methods of DriverCommands class in <project_slug>/driver_commands.py. As an example of L1 driver with CLI usage you can use [cloudshel-L1-mrv](https://github.com/QualiSystems/cloudshell-L1-mrv)
 
-4. Add/Modify variables and their values in the configuration/configuration.json file. This file will be compiled into the driver.
-You can add more variables to the runtime_configuration.json file to either override any variable from the configuration.json in runtime, or add other inputs that you'll be able to get from there in runtime.
-
-5. Update the driver version and metadata in version.txt
+4. Update the driver version and metadata in version.txt
 
 **Compile the driver:**
 
@@ -37,7 +34,7 @@ $ pip install pyinstaller
 
 **Test in CloudShell:**
 
-1. Copy the compiled driver and the runtime_configuration.json file into the CloudShell Server installation folder, to the Drivers folder (usually "C:\\Program Files (x86)\\QualiSystems\\CloudShell\\Server\\Drivers")
+1. Copy the compiled driver and the <DRIVER_NAME>_RuntimeConfiguration.yml file into the CloudShell Server installation folder, to the Drivers folder (usually "C:\\Program Files (x86)\\QualiSystems\\CloudShell\\Server\\Drivers")
 
 2. [Follow this guide](http://help.quali.com/Online%20Help/8.1.0.4291/Portal/Content/Admn/Cnct-Ctrl-L1-Swch.htm) to import the new datamodel, create a resource, set the timeout period, auto load it and configure its physical connections
 
