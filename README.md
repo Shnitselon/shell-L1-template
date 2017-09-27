@@ -12,7 +12,7 @@ $ pip install -r requirements.txt
 
 ```
 
-3. Implement methods of DriverCommands class in <project_slug>/driver_commands.py. As an example of L1 driver with CLI usage you can use [cloudshel-L1-mrv](https://github.com/QualiSystems/cloudshell-L1-mrv)
+3. Implement methods of DriverCommands class in <project_slug>/driver_commands.py. Follow docstrings with description, as an example of L1 driver with CLI usage you can use [cloudshel-L1-mrv](https://github.com/QualiSystems/cloudshell-L1-mrv)
 
 4. Update the driver version and metadata in version.txt
 
