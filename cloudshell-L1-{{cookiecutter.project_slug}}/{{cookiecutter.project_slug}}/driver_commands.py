@@ -71,18 +71,18 @@ class DriverCommands(DriverCommandsInterface):
         """
         raise NotImplementedError
 
-    def map_uni(self, src_port, dst_port):
+    def map_uni(self, src_port, dst_ports):
         """
         Unidirectional mapping of two ports
         :param src_port: src port address, '192.168.42.240/1/21'
         :type src_port: str
-        :param dst_port: dst port address, '192.168.42.240/1/22'
-        :type dst_port: str
+        :param dst_ports: list of dst ports addresses, ['192.168.42.240/1/22', '192.168.42.240/1/23']
+        :type dst_ports: list
         :return: None
         :raises Exception: if command failed
 
         Example:
-            self._map_flow.map_uni(src_port, dst_port)
+            self._map_flow.map_uni(src_port, dst_ports)
         """
         raise NotImplementedError
 
@@ -135,13 +135,13 @@ class DriverCommands(DriverCommandsInterface):
         """
         raise NotImplementedError
 
-    def map_clear_to(self, src_port, dst_port):
+    def map_clear_to(self, src_port, dst_ports):
         """
         Remove simplex/multi-cast/duplex connection ending on the destination port
         :param src_port: src port address, '192.168.42.240/1/21'
         :type src_port: str
-        :param dst_port: dst port address, '192.168.42.240/1/22'
-        :type dst_port: str
+        :param dst_ports: list of dst ports addresses, ['192.168.42.240/1/21', '192.168.42.240/1/22']
+        :type dst_ports: list
         :return: None
         :raises Exception: if command failed
 
@@ -182,5 +182,5 @@ class DriverCommands(DriverCommandsInterface):
         """
         raise NotImplementedError
 
-    def map_tap(self, src_port, dst_port):
-        return self.map_uni(src_port, dst_port)
+    def map_tap(self, src_port, dst_ports):
+        return self.map_uni(src_port, dst_ports)
