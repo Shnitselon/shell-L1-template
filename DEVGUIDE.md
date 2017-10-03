@@ -60,7 +60,7 @@ Opens new session to the device, called before each command tuple
 #### GetStateId
 Checks synchronization state with CloudShell, if state_id is different, then CloudShell and device is not synchronized. Return -1 if not used.
 
-####*Example of implementation*
+#### *Example of implementation*
 
 ```python
     def get_state_id(self):
