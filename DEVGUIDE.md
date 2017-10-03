@@ -1,14 +1,16 @@
-# L1 Driver Devguide
-This guide is a short review of the python L1 driver. 
+# Layer 1 Driver Devguide
+This guide is a short review of the Python Layer 1 (L1) driver. 
 
 ## L1 Driver Description
-L1 driver is a self executable application which is running by CloudShell with a specific port like an argument "L1_DRIVER.exe 4000". 
-It starts listening to a specified port and waits for a connection from the CloudShell. 
-CloudShell communicate with the driver using XML commands. Converts command data  and calls specific method of class DriverCommands, associated with command name.
+L1 driver is provided as a self executable application which runs by CloudShell.  
+It listens specified port and waits for a connection from the CloudShell. 
+CloudShell communicates with the driver using XML commands. 
+Driver converts command data  and calls specific methods of the DriverCommands class, which are associated with the command name.
 
-How to generate new driver template and basic driver usage you can find in this [README](https://github.com/QualiSystems/shell-L1-standard/blob/dev/README.md)
 
-To implement class DriverCommands use guide and examples below.
+To learn how to both use the driver and generate a new driver template see [README](https://github.com/QualiSystems/shell-L1-standard/blob/dev/README.md)
+
+This guide explains how to implement the DriverCommands class and provides detailed examples for reference.
 
 **Request command example**
 ```xml
@@ -37,35 +39,36 @@ To implement class DriverCommands use guide and examples below.
 ```
 
 ### Basic modules and classes
-* **Module main** *main.py* - Enter point of the driver, initialize and start driver.
-* **Class DriverCommands** *driver_commands.py* - Main driver class, implements [DriverCommandsInterface](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/driver_commands_interface.py), one method for each driver command.
-* **Class [CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py)** - Extract attributes from the command request and execute specific method of the DriverCommands class implemented for this specific driver command.
-* **Class [DriverListener](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/driver_listener.py)** - Listen for the new connections from the CloudShell.
-* **Class [ConnectionHandler](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/connection_handler.py)** - Handle new connection, read requests and send responses.
+* **Module main** *main.py* - Entry point of the driver. Initializes and starts the driver.
+* **Class DriverCommands** *driver_commands.py* - Main driver class. Implements [DriverCommandsInterface](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/driver_commands_interface.py) methods, one method for each driver command.
+* **Class [CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py)** - Extracts attributes from the command request and executes the DriverCommands class method that was implemented for this specific driver command.
+* **Class [DriverListener](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/driver_listener.py)** - Listens the driver`s port and handles new connections from CloudShell.
+* **Class [ConnectionHandler](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/connection_handler.py)** - Handles new connections, read requests and send responses.
 
 ### How it works
-1. CloudShell starts driver executable with port value as an argument ```L1_DRIVER.exe 4000```. It unpack interpreter with libraries into local virtual environment, then starts ```main.py``` with arguments.
-2. Module ```main``` reads runtime configuration, initializes instances of loggers, implemented DriverCommands class, [CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py), and [DriverListener](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/driver_listener.py), then start listening new connections. 
-3. When driver started, CloudShell initiate new connection to the driver and send XML command tuple. Each command tuple has Login command at the beginning.
-4. New connections handles by [ConnectionHandler](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/connection_handler.py).
-    * Read request data from the socket
-    * Parse request data by [RequestParser](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/requests_parser.py) and creates list of [CommandRequest](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/command_request.py) objects.
-    * Execute list of [CommandRequest](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/command_request.py) by [CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py)  
-5. [CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py) extract command_name and attributes for each [CommandRequest](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/command_request.py) instance, call method of implemented DriverCommands class defined for this command_name.
-    * For each [CommandRequest](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/command_request.py) [CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py) creates [CommandResponse](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/response/command_response.py) instance, which uses for generating response.
-6. [ResponseInfo](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/response/response_info.py) has response_info attribute, it can be defined by [ResponseInfo](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/response/response_info.py) instance, which can be returned from methods of DriverCommands class.
+1. CloudShell starts the driver executable with a port, which is defined as an argument ```L1_DRIVER.exe 4000```. 
+Executable file extracts the Python interpreter, source files and dependencies in the local virtual environment and then starts module *main* ```python main.py 4000```.
+2. Module ```main``` reads the runtime configuration, initializes loggers, the *DriverCommands*, *[CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py)*, and *[DriverListener](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/driver_listener.py)* instances, then starts listening for new connections. 
+3. When the driver was started, CloudShell initiates a new connection to the driver and senda an XML command tuple. 
+Each command tuple has a Login command at the beginning.
+4. New connections are handle by the [ConnectionHandler](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/connection_handler.py) class, which does the following:
+    * Reads request data from the socket
+    * Parses request data by [RequestParser](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/requests_parser.py) and creates list of [CommandRequest](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/command_request.py) objects.
+    * Executes a list of [CommandRequest](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/command_request.py) by [CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py)  
+5. [CommandExecutor](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/command_executor.py) extracts command name and attributes for each [CommandRequest](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/request/command_request.py) instance, calls the DriverCommands class method defined for this command name and build [CommandResponse](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/response/command_response.py) instance, in order to generate a response.
+6. [CommandResponse](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/response/command_response.py) has the *response_info* attribute. The [ResponseInfo](https://github.com/QualiSystems/cloudshell-L1-networking-core/blob/refactoring/cloudshell/layer_one/core/response/response_info.py) instance can be returned from the methods included in the DriverCommands class.
 
 ### Driver commands
 
 #### Login
-Opens new session to the device, called before each command tuple
+Opens a new session to the device. Login is called before each command tuple.
 
 **Attributes**
 * *Address* - IP address of the device
 *  *User* - Login username
 *  *Password* - Password
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def login(self, address, username, password):
         """
@@ -88,9 +91,10 @@ Opens new session to the device, called before each command tuple
 
 
 #### GetStateId
-Checks synchronization state with CloudShell, if state_id is different, then CloudShell and device is not synchronized. Return -1 if not used.
+Checks the synchronization state with CloudShell. 
+If state_id is different, then CloudShell and the device are not synchronized. A value "-1" indicates that it is not being used.
 
-#### *Example of implementation*
+#### *Example*
 
 ```python
     def get_state_id(self):
@@ -109,12 +113,12 @@ Checks synchronization state with CloudShell, if state_id is different, then Clo
 
 
 #### SetStateId
-Set synchronization state id to the device, it calls after any change done
+Sets the id of the current synchronization state between CloudShell and the device. It is called whenever any change done.
 
 **Attributes**
 * *StateId* - Id
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def set_state_id(self, state_id):
         """
@@ -130,12 +134,12 @@ Set synchronization state id to the device, it calls after any change done
             session.send_command('set chassis name {}'.format(state_id))
 ```
 #### GetResourceDescription
-Auto-load function to retrieve all information from the device and build device structure
+Auto-load function to retrieve all information from the device and build the device structure.
 
 **Attributes**
-* *Address* - resource address, '192.168.42.240'
+* *Address* - resource address. For example ```'192.168.42.240'```
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def get_resource_description(self, address):
         """
@@ -170,13 +174,13 @@ Auto-load function to retrieve all information from the device and build device 
 ```
 
 #### MapBidi
-Create a bidirectional connection between source and destination ports
+Creates a bidirectional connection between the source and destination ports.
 
 **Attributes**
-* *MapPort_A* - src port address, '192.168.42.240/1/21'
-* *MapPort_B* - dst port address, '192.168.42.240/1/22'
+* *MapPort_A* - src port address. For example ```'192.168.42.240/1/21'```
+* *MapPort_B* - dst port address. For example ```'192.168.42.240/1/22'```
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def map_bidi(self, src_port, dst_port):
         """
@@ -193,15 +197,15 @@ Create a bidirectional connection between source and destination ports
 ```
 
 #### MapUni
-Unidirectional mapping of ports, one src_port and multiple dst_ports, 
+Unidirectional mapping of ports, one src_port and multiple dst_ports. 
 
 **Attributes**
-* *SrcPort* - src port address, '192.168.42.240/1/21'
-* *DstPort* - dst port address, '192.168.42.240/1/22'
-* *DstPort* - dst port address, '192.168.42.240/1/23'
+* *SrcPort* - src port address. For example ```'192.168.42.240/1/21'```
+* *DstPort* - dst port address. For example ```'192.168.42.240/1/22'```
+* *DstPort* - dst port address, For example ```'192.168.42.240/1/23'```
 
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def map_uni(self, src_port, dst_ports):
         """
@@ -220,12 +224,12 @@ Unidirectional mapping of ports, one src_port and multiple dst_ports,
 ```
 
 #### MapClear
-Clear mapping on the port, for multiple ports
+Clears the ports mapping. Applicable for multiple ports.
 **Attributes**
-* *MapPort* - port adress, '192.168.42.240/1/21' 
-* *MapPort* - port adress, '192.168.42.240/1/22' 
+* *MapPort* - port address. For example ```'192.168.42.240/1/21'``` 
+* *MapPort* - port address. For example ```'192.168.42.240/1/22'``` 
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def map_clear(self, ports):
         """
@@ -241,14 +245,14 @@ Clear mapping on the port, for multiple ports
 ```
 
 #### MapClearTo
-Remove unidirectional mapping for one src_port and multiple dst_ports
+Removes unidirectional mapping. This applies for specific src_port and multiple dst_ports.
 
 **Attributes**
-* *SrcPort* - src port address, '192.168.42.240/1/21'
-* *DstPort* - dst port address, '192.168.42.240/1/22'
-* *DstPort* - dst port address, '192.168.42.240/1/23'
+* *SrcPort* - src port address. For example ```'192.168.42.240/1/21'```
+* *DstPort* - dst port address. For example ```'192.168.42.240/1/22'```
+* *DstPort* - dst port address. For example ```'192.168.42.240/1/23'```
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def map_clear_to(self, src_port, dst_ports):
         """
@@ -268,13 +272,13 @@ Remove unidirectional mapping for one src_port and multiple dst_ports
 ```
 
 #### GetAttributeValue
-Retrieve attribute value from the device for a specific resource
+Retrieves the value of a specific attribute on the device.
 
 **Attributes**
-* *Address* - Resource address, '10.11.178.35/2/1'
-* *Attribute* - Attribute name, 'Model Name'
+* *Address* - Resource address. For example ```'10.11.178.35/2/1'```
+* *Attribute* - Attribute name. For example ```'Model Name'```
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def get_attribute_value(self, cs_address, attribute_name):
         """
@@ -294,14 +298,14 @@ Retrieve attribute value from the device for a specific resource
 ```
 
 #### SetAttributeValue
-Set attribute value to the device
+Sets attribute value on the device.
 
 **Attribute**
-* *Address* - resource address, '10.11.178.35/4'
-* *Attribute* - attribute name, 'Toggle Rate'
-* *Value* - attribute value, '9999'
+* *Address* - resource address. For example ```'10.11.178.35/4'```
+* *Attribute* - attribute name. For example ```'Toggle Rate'```
+* *Value* - attribute value. For example ```'9999'```
 
-#### *Example of implementation*
+#### *Example*
 ```python
     def set_attribute_value(self, cs_address, attribute_name, attribute_value):
         """
@@ -453,4 +457,4 @@ class DriverCommands(DriverCommandsInterface):
             self._logger.info(device_info)
 
 ```
-#### Full example of DriverCommands class with CLI usage [DriverCommands](https://github.com/QualiSystems/cloudshell-L1-mrv/blob/model_fixes/mrv/driver_commands.py)
+#### Full example of the DriverCommands class with CLI usage [DriverCommands](https://github.com/QualiSystems/cloudshell-L1-mrv/blob/model_fixes/mrv/driver_commands.py)
