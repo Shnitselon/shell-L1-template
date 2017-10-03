@@ -6,9 +6,9 @@ L1 driver is a self executable application which is running by CloudShell with a
 It starts listening to a specified port and waits for a connection from the CloudShell. 
 CloudShell communicate with the driver using XML commands. Converts command data  and calls specific method of class DriverCommands, associated with command name.
 
-To generate new driver template use this [README](https://github.com/QualiSystems/shell-L1-standard/blob/dev/README.md)
+How to generate new driver template and basic driver usage you can find in this [README](https://github.com/QualiSystems/shell-L1-standard/blob/dev/README.md)
 
-To implement class DriverCommands use guide and examples below. 
+To implement class DriverCommands use guide and examples below.
 
 **Request command example**
 ```xml
@@ -68,6 +68,14 @@ Opens new session to the device, called before each command tuple
 #### *Example of implementation*
 ```python
     def login(self, address, username, password):
+        """
+        Perform login operation on the device
+        :param address: resource address, "192.168.42.240"
+        :param username: username to login on the device
+        :param password: password
+        :return: None
+        :raises Exception: if command failed
+        """
         # Define session attributes
         self._cli_handler.define_session_attributes(address, username, password)
         
@@ -228,9 +236,8 @@ Clear mapping on the port, for multiple ports
         :raises Exception: if command failed
         """
         with self._cli_handler.config_mode_service() as session:
-            mapping_actions = MappingActions(session, self._logger)
-            _ports = [convert_port(port) for port in ports]
-            mapping_actions.map_clear(_ports)
+            for port in ports:
+                session.send_command('map clear {}'.format(convert_port(port)))
 ```
 
 #### MapClearTo
@@ -254,10 +261,10 @@ Remove unidirectional mapping for one src_port and multiple dst_ports
         :raises Exception: if command failed
         """
         with self._cli_handler.config_mode_service() as session:
-            mapping_actions = MappingActions(session, self._logger)
-            _src_port = Address.from_cs_address(src_port).build_str()
-            _dst_ports = [Address.from_cs_address(port).build_str() for port in dst_ports]
-            mapping_actions.map_clear_to(_src_port, _dst_ports)
+            _src_port = convert_port(src_port)
+            for port in dst_ports:
+                _dst_port = convert_port(port)
+                session.send_command('map clear-to {0} {1}'.format(_src_port, _dst_port))
 ```
 
 #### GetAttributeValue
@@ -315,7 +322,6 @@ Set attribute value to the device
             return AttributeValueResponseInfo(attribute_value)
 
 ```
-
 
 ### CLI Usage
 

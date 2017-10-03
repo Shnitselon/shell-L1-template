@@ -25,8 +25,14 @@ class DriverCommands(DriverCommandsInterface):
         :return: None
         :raises Exception: if command failed
         Example:
-            session = CliSession(address, username, password)
-            session.connect()
+            # Define session attributes
+            self._cli_handler.define_session_attributes(address, username, password)
+
+            # Obtain cli session
+            with self._cli_handler.default_mode_service() as session:
+                # Executing simple command
+                device_info = session.send_command('show version')
+                self._logger.info(device_info)
         """
         raise NotImplementedError
 
@@ -38,8 +44,11 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
-            state_id = self._state_flow.get_id()
-            return GetStateIdResponseInfo(state_id)
+            # Obtain cli session
+            with self._cli_handler.default_mode_service() as session:
+                # Execute command
+                chassis_name = session.send_command('show chassis name')
+                return chassis_name
         """
         raise NotImplementedError
 
@@ -52,7 +61,10 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
-            self._state_flow.set_id(state_id)
+            # Obtain cli session
+            with self._cli_handler.config_mode_service() as session:
+                # Execute command
+                session.send_command('set chassis name {}'.format(state_id))
         """
         raise NotImplementedError
 
@@ -67,7 +79,9 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
-            self._map_flow.map_bidi(src_port, dst_port)
+            with self._cli_handler.config_mode_service() as session:
+                session.send_command('map bidir {0} {1}'.format(convert_port(src_port), convert_port(dst_port)))
+
         """
         raise NotImplementedError
 
@@ -82,7 +96,9 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
-            self._map_flow.map_uni(src_port, dst_ports)
+            with self._cli_handler.config_mode_service() as session:
+                for dst_port in dst_ports:
+                    session.send_command('map {0} also-to {1}'.format(convert_port(src_port), convert_port(dst_port)))
         """
         raise NotImplementedError
 
@@ -130,8 +146,9 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
+            with self._cli_handler.config_mode_service() as session:
             for port in ports:
-                self._map_flow.map_clear(port)
+                session.send_command('map clear {}'.format(convert_port(port)))
         """
         raise NotImplementedError
 
@@ -146,7 +163,11 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
-            self._map_flow.map_clear_to(src_port, dst_port)
+            with self._cli_handler.config_mode_service() as session:
+                _src_port = convert_port(src_port)
+                for port in dst_ports:
+                    _dst_port = convert_port(port)
+                    session.send_command('map clear-to {0} {1}'.format(_src_port, _dst_port))
         """
         raise NotImplementedError
 
@@ -162,8 +183,10 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
-            value = self._attribute_flow.get(cs_address, attribute_name)
-            return AttributeValueResponseInfo(value)
+            with self._cli_handler.config_mode_service() as session:
+                command = AttributeCommandFactory.get_attribute_command(cs_address, attribute_name)
+                value = session.send_command(command)
+                return AttributeValueResponseInfo(value)
         """
         raise NotImplementedError
 
@@ -179,6 +202,12 @@ class DriverCommands(DriverCommandsInterface):
         :return: attribute value
         :rtype: cloudshell.layer_one.core.response.response_info.AttributeValueResponseInfo
         :raises Exception: if command failed
+
+        Example:
+            with self._cli_handler.config_mode_service() as session:
+                command = AttributeCommandFactory.set_attribute_command(cs_address, attribute_name, attribute_value)
+                session.send_command(command)
+                return AttributeValueResponseInfo(attribute_value)
         """
         raise NotImplementedError
 
