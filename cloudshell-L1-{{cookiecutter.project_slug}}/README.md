@@ -8,7 +8,7 @@ End users will be able to create routes, configure port settings, and read value
 The {{cookiecutter.project_name}} L1 Driver package includes:
 | File name | Description |
 | ------ | ------ |
-| {{cookiecutter.model_name}}.exe | Driver used by CloudShell Server |
+| {{cookiecutter.model_name.upper().replace(' ', '_')}}.exe | Driver used by CloudShell Server |
 | {{cookiecutter.project_slug}}_runtime_configuration.json | JSON file enabling additional configuration interface for the driver
 | {{cookiecutter.project_name}}ResourceConfiguration.xml | An XML file holding all attribute and capabilities of the L1 switches of the same vendor |
 
