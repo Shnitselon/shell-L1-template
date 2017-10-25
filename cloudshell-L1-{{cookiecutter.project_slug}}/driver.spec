@@ -1,10 +1,12 @@
 # -*- mode: python -*-
-
 block_cipher = None
 
 import os
+import PyInstaller.utils.hooks
 
 CS_L1_NETCORE = "../cloudshell-L1-networking-core"
+
+HOME = "C:\Github\cloudshell-L1-{{cookiecutter.project_slug}}"
 
 def add_data_files(related_path, root_path="."):
 
@@ -17,19 +19,18 @@ def add_data_files(related_path, root_path="."):
     return templates
 
 a = Analysis(['main.py'],
-             pathex=[".", CS_L1_NETCORE, "../cloudshell-core"],
+             pathex=[os.path.join(HOME, "cloudshell-core"), os.path.join(HOME, "cloudshell-cli"),
+             os.path.join(HOME, "cloudshell-L1-networking-core"), os.path.join(HOME, "cloudshell-L1-{{cookiecutter.project_slug}}")],
              binaries=None,
-             datas=[],
-             hiddenimports=[
-                "common.cli.tcp_session",
-                "common.cli.telnet_session",
-                "common.cli.console_session",
-                "common.cli.ssh_session",
-                "{{cookiecutter.project_slug}}.driver_handler"
-             ],
-             hookspath=None,
+             datas=PyInstaller.utils.hooks.collect_data_files('cloudshell.core.logger') + \
+             PyInstaller.utils.hooks.collect_data_files('{{cookiecutter.project_slug}}'),
+             hiddenimports=PyInstaller.utils.hooks.collect_submodules('cloudshell-cli') + \
+             PyInstaller.utils.hooks.collect_submodules('paramiko') + [
+                "{{cookiecutter.project_slug}}"
+             ] + PyInstaller.utils.hooks.collect_submodules('cloudshell'),
+             hookspath=["..\cloudshell-cli\."],
              runtime_hooks=None,
-             excludes=None,
+             excludes=["cloudshell.snmp", "cloudshell.shell", "cloudshell.networking"],
              win_no_prefer_redirects=None,
              win_private_assemblies=None,
              cipher=block_cipher)
@@ -38,10 +39,11 @@ pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 exe = EXE(pyz,
           a.scripts,
-          a.binaries + add_data_files("configuration") + add_data_files("common/response_template", CS_L1_NETCORE) ,
+          a.binaries + add_data_files("cloudshell/layer_one/core/response/templates", CS_L1_NETCORE) + \
+          add_data_files("cloudshell/layer_one/core/response/resource_info/templates", CS_L1_NETCORE),
           a.zipfiles,
           a.datas,
-          name='{{cookiecutter.model_name}}',
+          name='{{cookiecutter.model_name.upper()}}',
           debug=False,
           strip=None,
           upx=True,
@@ -49,3 +51,4 @@ exe = EXE(pyz,
           version='version.txt',
           icon=os.path.join(CS_L1_NETCORE, "img/icon.ico")
           )
+
