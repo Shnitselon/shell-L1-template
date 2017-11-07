@@ -213,3 +213,14 @@ class DriverCommands(DriverCommandsInterface):
 
     def map_tap(self, src_port, dst_ports):
         return self.map_uni(src_port, dst_ports)
+
+    def set_speed_manual(self, src_port, dst_port, speed, duplex):
+        """
+        Set connection speed. Is not used with the new standard
+        :param src_port:
+        :param dst_port:
+        :param speed:
+        :param duplex:
+        :return:
+        """
+        raise NotImplementedError
