@@ -14,7 +14,7 @@ from {{cookiecutter.project_slug}}.driver_commands import DriverCommands
 SERVER_PORT = 1024
 
 if __name__ == '__main__':
-    driver_name = '{{cookiecutter.project_slug.upper()}}'
+    driver_name = '{{cookiecutter.project_slug}}'
 
     # Determining log path
     driver_path = os.path.dirname(sys.argv[0])
