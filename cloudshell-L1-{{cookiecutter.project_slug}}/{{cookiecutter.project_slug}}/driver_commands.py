@@ -146,9 +146,15 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
+            exceptions = []
             with self._cli_handler.config_mode_service() as session:
-            for port in ports:
-                session.send_command('map clear {}'.format(convert_port(port)))
+                for port in ports:
+                    try:
+                        session.send_command('map clear {}'.format(convert_port(port)))
+                    except Exception as e:
+                        exceptions.append(str(e))
+                if exceptions:
+                    raise Exception('self.__class__.__name__', ','.join(exceptions))
         """
         raise NotImplementedError
 
