@@ -34,7 +34,7 @@ if __name__ == '__main__':
                                    log_file_prefix=driver_name + '_commands', log_category='COMMANDS')
     log_level = runtime_config.read_key('LOGGING.LEVEL', 'INFO')
     command_logger.setLevel(log_level)
-    command_logger.debug('Starting driver {}'.format(driver_name))
+    command_logger.debug('Starting driver {0}, PID: {1}'.format(driver_name, os.getpid()))
 
     # Creating driver commands instance
     driver_instance = DriverCommands(command_logger)
