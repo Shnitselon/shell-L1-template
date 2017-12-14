@@ -6,7 +6,7 @@
 ```bash
 $ shellfoundry new DriverName --template layer-1-switch
 ```
-2. Create new Python virtualenv in the projects folder. Specify the same python executable which used by CloudShell.
+2. Create new Python virtualenv in the projects folder. Specify the same python executable which uses by CloudShell.
 ```bash
 virtualenv --python="c:\Program Files (x86)\QualiSystems\CloudShell\Server\python\2.7.10\python.exe" --always-copy .\cloudshell-L1-DriverName
 ```
@@ -21,7 +21,8 @@ $ pip install -r requirements.txt
 ```
 **Implementation:**
 
-1. Implement methods of the DriverCommands class in <project_slug>/driver_commands.py. Follow [DEVGUIDE](https://github.com/QualiSystems/shell-L1-standard/blob/dev/DEVGUIDE.md) and docstrings with description, as an example of L1 driver with CLI usage you can use [cloudshel-L1-mrv](https://github.com/QualiSystems/cloudshell-L1-mrv)
+1. Implement methods of the DriverCommands class in <project_slug>/driver_commands.py. Follow the [DEVGUIDE](https://github.com/QualiSystems/shell-L1-standard/blob/dev/DEVGUIDE.md) and docstrings with description, as an example of L1 driver with CLI usage you can use [cloudshel-L1-mrv](https://github.com/QualiSystems/cloudshell-L1-mrv).
+To debug the driver use [DEBUGGING GUIDE](https://github.com/QualiSystems/shell-L1-template/blob/run_driver_without_pyinstaller/DEBUGGING.md).
 
 2. Update the driver version and metadata in version.txt
 
