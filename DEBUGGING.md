@@ -16,14 +16,14 @@ An easy way to get a CMD prompt as SYSTEM is to grab [PSEXEC](https://docs.micro
 ```
 You will have a new CMD prompt open, as SYSTEM
 
-6. Run PyCharms in opened CMD:
+6. Run PyCharm in the opened CMD:
 ```cmd
 C:\Program Files (x86)\JetBrains\PyCharm Community Edition 2016.1.4\bin\pycharm.exe
 ```
 
-* ## Open the driver as a Project in PyCharms and configure interpreter 
-1. Press Open and specify driver folder, like *C:\Program Files (x86)\QualiSystems\CloudShell\Server\Drivers\cloudshell-L1-driver_example*
-2. Specify Project interpreter from the driver virtualenv. Set python executable from the driver folder, like *C:\Program Files (x86)\QualiSystems\CloudShell\Server\Drivers\cloudshell-L1-fiberzone_afm\Scripts\python.exe*
+* ## Open the driver as a Project in PyCharm and configure the interpreter 
+1. Press Open and select the driver folder, like *C:\Program Files (x86)\QualiSystems\CloudShell\Server\Drivers\cloudshell-L1-driver_example*
+2. Specify Project interpreter from the driver virtualenv. Set python executable from the driver folder, like *C:\Program Files (x86)\QualiSystems\CloudShell\Server\Drivers\cloudshell-L1-driver_example\Scripts\python.exe*
 
 
 * ## Run driver in a debug mode
@@ -32,11 +32,11 @@ C:\Program Files (x86)\JetBrains\PyCharm Community Edition 2016.1.4\bin\pycharm.
 ```yaml
 DEBUG_ENABLED: TRUE
 ```
-3. Kill python process of the driver. Find PID of the driver process in the commands log and kill it in the Task Manager.
+3. Kill the python process of the driver. Find the PID (process id) of the driver process in the commands log and kill it in the Task Manager.
 
-* ## Attach PyCharms debugger to the driver process
-1. Specify breakpoints in sources of the driver project.
-2. Use CloudShell to call driver commands. For example, call *Autoload* in ResourceManager. 
-3. Find in the commands log of the driver, PID of the driver process.
-4. Attach PyCharms debugger to the driver process. In PyCharms press *Run>Attach to LocalProcess* and choose process with the same PID you found in the commands log.
-5. Wait when it stops on the breakpoint.
+* ## Attach PyCharm's debugger to the driver process
+1. Specify breakpoints in the driver project's source files.
+2. Use CloudShell to call a driver commands. For example, call *Autoload* in ResourceManager. 
+3. Find in the commands log of the driver the PID of the driver process.
+4. Attach PyCharms debugger to the driver process. In PyCharm press *Run>Attach to LocalProcess* and choose the process with the same PID you found in the commands log.
+5. Wait until it stops on the breakpoint.
