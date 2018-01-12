@@ -27,10 +27,16 @@ To debug the driver use the [DEBUGGING GUIDE](https://github.com/QualiSystems/sh
 2. Update the driver version and metadata in version.txt
 
 
-**Compile the driver executable and build package:**
+**Compile the driver executable and build the package:**
 1. Download [Bat To Exe](http://www.f2ko.de/en/b2e.php) Converter
-2. Compile *DriverName.bat* to *DriverName.exe*
-4. Create new zip archive with the *Cloudshell-L1-DriverName* project folder and *Cloudshell-L1-DriverName\DriverName.exe* executable inside, located both at the same level.
+2. Compile *DriverName.bat* to *DriverName.exe*:
+    * Open *bat To Exe Converter*
+    * Select *Batch File:* from the project's folder. For example *cloudshell-L1-DriverName\\DriverName.bat*
+    * Specify *Save As:* location. For example *cloudshell-L1-DriverName\\DriverName.exe*
+    * Specify *Architecture*
+    * Press *Compile*
+
+3. Create new zip archive, *DriverName.zip*, put there the project's folder, *Cloudshell-L1-DriverName\\*, and the driver's executable, *Cloudshell-L1-DriverName\\DriverName.exe*, on the same directory level as the project's folder.
 
 **Test in CloudShell:**
 
