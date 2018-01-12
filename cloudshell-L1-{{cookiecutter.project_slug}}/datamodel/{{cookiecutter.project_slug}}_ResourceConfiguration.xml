@@ -134,7 +134,7 @@
         <ResourceFamily Name="{{cookiecutter.family_name}}" IsMappableContainer="true" IsMappable="false"
                         IsConnectable="false" IsLicenseCheckRequired="false" IsAllConnectedContainer="false"
                         IsLockedByDefault="false" AcceptsMultipleConnections="false" Description=""
-                        SupportsMulticastMapping="false" SupportsLoopbackMapping="true" IsPowerSwitch="false"
+                        SupportsMulticastMapping="true" SupportsLoopbackMapping="true" IsPowerSwitch="false"
                         IsConsoleServer="false">
             <AttachedAttributes>
                 <AttachedAttribute Name="User" IsOverridable="true" IsLocal="true">
@@ -251,6 +251,6 @@
     </ResourceFamilies>
     <DriverDescriptors>
         <DriverDescriptor Name="{{cookiecutter.model_name.upper()}}" DriverType="L1SwitchTclDriver"
-                          CustomParams="{{cookiecutter.model_name.upper().replace(' ', '_')}}.exe"/>
+                          CustomParams="{{cookiecutter.project_slug}}.exe"/>
     </DriverDescriptors>
 </ResourceManagementExportImport>

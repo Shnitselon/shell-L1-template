@@ -146,9 +146,15 @@ class DriverCommands(DriverCommandsInterface):
         :raises Exception: if command failed
 
         Example:
+            exceptions = []
             with self._cli_handler.config_mode_service() as session:
-            for port in ports:
-                session.send_command('map clear {}'.format(convert_port(port)))
+                for port in ports:
+                    try:
+                        session.send_command('map clear {}'.format(convert_port(port)))
+                    except Exception as e:
+                        exceptions.append(str(e))
+                if exceptions:
+                    raise Exception('self.__class__.__name__', ','.join(exceptions))
         """
         raise NotImplementedError
 
@@ -212,11 +218,23 @@ class DriverCommands(DriverCommandsInterface):
         raise NotImplementedError
 
     def map_tap(self, src_port, dst_ports):
-        return self.map_uni(src_port, dst_ports)
+        """
+        Add TAP connection
+        :param src_port: port to monitor '192.168.42.240/1/21'
+        :type src_port: str
+        :param dst_ports: ['192.168.42.240/1/22', '192.168.42.240/1/23']
+        :type dst_ports: list
+        :return: None
+        :raises Exception: if command failed
+
+        Example:
+            return self.map_uni(src_port, dst_ports)
+        """
+        raise NotImplementedError
 
     def set_speed_manual(self, src_port, dst_port, speed, duplex):
         """
-        Set connection speed. Is not used with the new standard
+        Set connection speed. It is not used with new standard
         :param src_port:
         :param dst_port:
         :param speed:
