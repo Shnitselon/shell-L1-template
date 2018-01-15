@@ -131,7 +131,7 @@
         </Module>
     </Modules>
     <ResourceFamilies>
-        <ResourceFamily Name="{{cookiecutter.family_name}}" IsMappableContainer="true" IsMappable="false"
+        <ResourceFamily Name="L1 Switch" IsMappableContainer="true" IsMappable="false"
                         IsConnectable="false" IsLicenseCheckRequired="false" IsAllConnectedContainer="false"
                         IsLockedByDefault="false" AcceptsMultipleConnections="false" Description=""
                         SupportsMulticastMapping="true" SupportsLoopbackMapping="true" IsPowerSwitch="false"
@@ -146,7 +146,7 @@
             </AttachedAttributes>
             <AttributeValues/>
             <Models>
-                <ResourceModel Name="{{ cookiecutter.model_name }} Chassis" Description="" SupportsConcurrentCommands="false">
+                <ResourceModel Name="{{cookiecutter.model_name}} Chassis" Description="" SupportsConcurrentCommands="false">
                     <AttachedAttributes>
                         <AttachedAttribute Name="Model Name" IsOverridable="true" IsLocal="true">
                             <AllowedValues/>
