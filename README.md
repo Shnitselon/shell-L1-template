@@ -22,7 +22,7 @@ $ pip install -r requirements.txt
 **Implementation:**
 
 1. Implement methods of the DriverCommands class in <project_slug>/driver_commands.py. Follow the [DEVGUIDE](https://github.com/QualiSystems/shell-L1-standard/blob/dev/DEVGUIDE.md) and docstrings with description, as an example of an L1 driver with CLI usage you can reffer to the [cloudshel-L1-mrv](https://github.com/QualiSystems/cloudshell-L1-mrv) project.
-To debug the driver use the [DEBUGGING GUIDE](https://github.com/QualiSystems/shell-L1-template/blob/run_driver_without_pyinstaller/DEBUGGING.md).
+To debug the driver use the [DEBUGGING GUIDE](https://github.com/QualiSystems/shell-L1-template/blob/dev/DEBUGGING.md).
 
 2. Update the driver version and metadata in version.txt
 
