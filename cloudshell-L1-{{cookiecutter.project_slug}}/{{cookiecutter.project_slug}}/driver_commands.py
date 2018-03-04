@@ -113,28 +113,32 @@ class DriverCommands(DriverCommandsInterface):
 
         Example:
 
-            from cloudshell.layer_one.core.response.resource_info.entities.chassis import Chassis
-            from cloudshell.layer_one.core.response.resource_info.entities.blade import Blade
-            from cloudshell.layer_one.core.response.resource_info.entities.port import Port
+        from cloudshell.layer_one.core.response.resource_info.entities.chassis import Chassis
+        from cloudshell.layer_one.core.response.resource_info.entities.blade import Blade
+        from cloudshell.layer_one.core.response.resource_info.entities.port import Port
+        from cloudshell.layer_one.core.response.response_info import ResourceDescriptionResponseInfo
 
-            chassis_resource_id = chassis_info.get_id()
-            chassis_address = chassis_info.get_address()
-            chassis_model_name = "{{ cookiecutter.model_name }} Chassis"
-            chassis_serial_number = chassis_info.get_serial_number()
-            chassis = Chassis(resource_id, address, model_name, serial_number)
+        chassis_resource_id = 1
+        chassis_model_name = "{{ cookiecutter.model_name }} Chassis"
+        chassis_serial_number = 'NA'
+        chassis = Chassis(chassis_resource_id, address, chassis_model_name, chassis_serial_number)
 
-            blade_resource_id = blade_info.get_id()
-            blade_model_name = 'Generic L1 Module'
-            blade_serial_number = blade_info.get_serial_number()
-            blade.set_parent_resource(chassis)
+        blade1 = Blade('1')
+        blade1.set_parent_resource(chassis)
+        blade2 = Blade('2')
+        blade2.set_parent_resource(chassis)
 
-            port_id = port_info.get_id()
-            port_serial_number = port_info.get_serial_number()
-            port = Port(port_id, 'Generic L1 Port', port_serial_number)
-            port.set_parent_resource(blade)
+        for port_id in range(1, 11):
+            port = Port(port_id)
+            port.set_parent_resource(blade1)
 
-            return ResourceDescriptionResponseInfo([chassis])
+        for port_id in range(1, 11):
+            port = Port(port_id)
+            port.set_parent_resource(blade2)
+
+        return ResourceDescriptionResponseInfo([chassis])
         """
+
         raise NotImplementedError
 
     def map_clear(self, ports):
