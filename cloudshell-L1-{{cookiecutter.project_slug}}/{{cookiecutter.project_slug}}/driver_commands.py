@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from cloudshell.layer_one.core.driver_commands_interface import DriverCommandsInterface
+from cloudshell.layer_one.core.response.response_info import GetStateIdResponseInfo
+from cloudshell.layer_one.core.response.resource_info.entities.chassis import Chassis
+from cloudshell.layer_one.core.response.resource_info.entities.blade import Blade
+from cloudshell.layer_one.core.response.resource_info.entities.port import Port
+from cloudshell.layer_one.core.response.response_info import ResourceDescriptionResponseInfo
 
 
 class DriverCommands(DriverCommandsInterface):
@@ -34,7 +39,7 @@ class DriverCommands(DriverCommandsInterface):
                 device_info = session.send_command('show version')
                 self._logger.info(device_info)
         """
-        raise NotImplementedError
+        pass
 
     def get_state_id(self):
         """
@@ -50,7 +55,7 @@ class DriverCommands(DriverCommandsInterface):
                 chassis_name = session.send_command('show chassis name')
                 return chassis_name
         """
-        raise NotImplementedError
+        return GetStateIdResponseInfo(-1)
 
     def set_state_id(self, state_id):
         """
@@ -66,7 +71,7 @@ class DriverCommands(DriverCommandsInterface):
                 # Execute command
                 session.send_command('set chassis name {}'.format(state_id))
         """
-        raise NotImplementedError
+        pass
 
     def map_bidi(self, src_port, dst_port):
         """
@@ -83,7 +88,7 @@ class DriverCommands(DriverCommandsInterface):
                 session.send_command('map bidir {0} {1}'.format(convert_port(src_port), convert_port(dst_port)))
 
         """
-        raise NotImplementedError
+        pass
 
     def map_uni(self, src_port, dst_ports):
         """
@@ -100,7 +105,7 @@ class DriverCommands(DriverCommandsInterface):
                 for dst_port in dst_ports:
                     session.send_command('map {0} also-to {1}'.format(convert_port(src_port), convert_port(dst_port)))
         """
-        raise NotImplementedError
+        pass
 
     def get_resource_description(self, address):
         """
@@ -139,7 +144,25 @@ class DriverCommands(DriverCommandsInterface):
         return ResourceDescriptionResponseInfo([chassis])
         """
 
-        raise NotImplementedError
+        chassis_resource_id = 1
+        chassis_model_name = "{{ cookiecutter.model_name }} Chassis"
+        chassis_serial_number = 'NA'
+        chassis = Chassis(chassis_resource_id, address, chassis_model_name, chassis_serial_number)
+
+        blade1 = Blade('1')
+        blade1.set_parent_resource(chassis)
+        blade2 = Blade('2')
+        blade2.set_parent_resource(chassis)
+
+        for port_id in range(1, 11):
+            port = Port(port_id)
+            port.set_parent_resource(blade1)
+
+        for port_id in range(1, 11):
+            port = Port(port_id)
+            port.set_parent_resource(blade2)
+
+        return ResourceDescriptionResponseInfo([chassis])
 
     def map_clear(self, ports):
         """
@@ -160,7 +183,7 @@ class DriverCommands(DriverCommandsInterface):
                 if exceptions:
                     raise Exception('self.__class__.__name__', ','.join(exceptions))
         """
-        raise NotImplementedError
+        pass
 
     def map_clear_to(self, src_port, dst_ports):
         """
@@ -179,7 +202,7 @@ class DriverCommands(DriverCommandsInterface):
                     _dst_port = convert_port(port)
                     session.send_command('map clear-to {0} {1}'.format(_src_port, _dst_port))
         """
-        raise NotImplementedError
+        pass
 
     def get_attribute_value(self, cs_address, attribute_name):
         """
@@ -198,7 +221,7 @@ class DriverCommands(DriverCommandsInterface):
                 value = session.send_command(command)
                 return AttributeValueResponseInfo(value)
         """
-        raise NotImplementedError
+        pass
 
     def set_attribute_value(self, cs_address, attribute_name, attribute_value):
         """
@@ -219,7 +242,7 @@ class DriverCommands(DriverCommandsInterface):
                 session.send_command(command)
                 return AttributeValueResponseInfo(attribute_value)
         """
-        raise NotImplementedError
+        pass
 
     def map_tap(self, src_port, dst_ports):
         """
