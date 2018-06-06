@@ -3,7 +3,8 @@
   "email": "info@quali.com",
   "github_username": "qualisystemslab",
   "category": "App Management",
-  "project_name": "L1 driver",
+  "project_name": "",
+  "family_name" : "",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-','_') }}",
   "model_name": "{{ cookiecutter.project_slug.replace('_', ' ').title()}}",
   "project_short_description": "Describe the purpose of your CloudShell shell",
@@ -12,5 +13,8 @@
   "year": "2017",
   "version": "0.2.0",
   "server_version": "7.0",
-  "use_pypi_deployment_with_travis": "y"
+  "use_pypi_deployment_with_travis": "y",
+  "template_name" : "layer-1-switch",
+  "template_descr" : "A native shell template for layer 1 switches",
+  "template_repository" : "https://github.com/QualiSystems/shell-L1-standard"
 }
